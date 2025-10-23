@@ -5,6 +5,8 @@ import {
   getCoreRowModel,
   getPaginationRowModel,
   useReactTable,
+  SortingState,
+  getSortedRowModel
 } from "@tanstack/react-table";
 
 import {
@@ -30,6 +32,7 @@ import {
   ChevronLeft,
   ChevronRight,
 } from "lucide-react";
+import React from "react";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -42,11 +45,18 @@ export function CustomDataTable<TData, TValue>({
   data,
   buttonLabel,
 }: DataTableProps<TData, TValue>) {
+  const [sorting, setSorting] = React.useState<SortingState>([]);
   const table = useReactTable({
     data,
     columns,
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
+    onSortingChange: setSorting,
+    getSortedRowModel: getSortedRowModel(),
+    state: {
+      sorting,
+    },
+
     initialState: {
       pagination: {
         pageSize: 10,

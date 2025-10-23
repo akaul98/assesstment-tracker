@@ -3,6 +3,8 @@
 import { Switch } from "@/components/ui/switch"
 import { ColumnDef } from "@tanstack/react-table"
 import { User } from "../../../components/users/users-data-table"
+import { ArrowUpDown } from "lucide-react"
+import { Button } from "@/components/ui/button"
 
 export const columns = (onChangeStatus: (id:number, status:boolean) => void): ColumnDef<User, any>[] => [
   {
@@ -11,20 +13,63 @@ export const columns = (onChangeStatus: (id:number, status:boolean) => void): Co
   },
   {
     accessorKey: "name",
-    header: "Name",
+        header: ({ column }) => {
+      return (
+      <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Name
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      )
+    },
   },
+
   {
     accessorKey: "email",
-    header: "Email",
+      header: ({ column }) => {
+      return (
+      <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Email
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      )
+    },
   },
   {
     accessorKey: "designation",
-    header: "Designation",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Designation
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      )
+    },
   },
+
   {
     accessorKey: "department",
-    header: "Department",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Department
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      )
+    },
   },
+
   {
     accessorKey: "status",
     header: "Status",
