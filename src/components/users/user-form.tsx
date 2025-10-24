@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { Switch } from "../ui/switch";
 
 export type UserFormValues = {
   name: string;
@@ -11,9 +12,10 @@ export type UserFormValues = {
   status: "active" | "inactive";
 };
 
-
-export default function UserForm() {
-  const [submittedData, setSubmittedData] = useState<UserFormValues | null>(null);
+export default function UserForm({ type }: { type: "add" | "edit" }) {
+  const [submittedData, setSubmittedData] = useState<UserFormValues | null>(
+    null
+  );
 
   const {
     register,
@@ -43,7 +45,9 @@ export default function UserForm() {
     >
       {/* Name */}
       <div className="mb-4 w-full">
-        <label htmlFor="name" className="block text-gray-700">Name</label>
+        <label htmlFor="name" className="block text-gray-700">
+          Name
+        </label>
         <input
           id="name"
           type="text"
@@ -59,7 +63,9 @@ export default function UserForm() {
 
       {/* Email */}
       <div className="mb-4 w-full">
-        <label htmlFor="email" className="block text-gray-700">Email</label>
+        <label htmlFor="email" className="block text-gray-700">
+          Email
+        </label>
         <input
           id="email"
           type="email"
@@ -81,7 +87,9 @@ export default function UserForm() {
 
       {/* Department */}
       <div className="mb-4 w-full">
-        <label htmlFor="department" className="block text-gray-700">Department</label>
+        <label htmlFor="department" className="block text-gray-700">
+          Department
+        </label>
         <input
           id="department"
           type="text"
@@ -91,13 +99,17 @@ export default function UserForm() {
           } rounded`}
         />
         {errors.department && (
-          <p className="text-red-500 text-sm mt-1">{errors.department.message}</p>
+          <p className="text-red-500 text-sm mt-1">
+            {errors.department.message}
+          </p>
         )}
       </div>
 
       {/* Designation */}
       <div className="mb-4 w-full">
-        <label htmlFor="designation" className="block text-gray-700">Designation</label>
+        <label htmlFor="designation" className="block text-gray-700">
+          Designation
+        </label>
         <input
           id="designation"
           type="text"
@@ -107,24 +119,28 @@ export default function UserForm() {
           } rounded`}
         />
         {errors.designation && (
-          <p className="text-red-500 text-sm mt-1">{errors.designation.message}</p>
+          <p className="text-red-500 text-sm mt-1">
+            {errors.designation.message}
+          </p>
         )}
       </div>
 
       {/* Status */}
       <div className="mb-4 w-full">
-        <label htmlFor="status" className="block text-gray-700">Status</label>
-        <select
+        <label htmlFor="status" className="block text-gray-700">
+          Status
+        </label>
+        <Switch
           id="status"
           {...register("status", { required: "Status is required" })}
-          className={`w-full px-3 py-2 border ${
-            errors.status ? "border-red-500" : "border-gray-300"
-          } rounded`}
-        >
-          <option value="">Select status</option>
-          <option value="active">Active</option>
-          <option value="inactive">Inactive</option>
-        </select>
+          checked={type === "add" ? true : undefined}
+          onCheckedChange={(checked) => {
+            // Manually set the value in the form
+            const value = checked ? "active" : "inactive";
+            // @ts-ignore
+            register("status").onChange({ target: { value } });
+          }}
+        />
         {errors.status && (
           <p className="text-red-500 text-sm mt-1">{errors.status.message}</p>
         )}

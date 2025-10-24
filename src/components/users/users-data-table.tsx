@@ -228,7 +228,7 @@ export function UsersDataTable() {
                 Fill in the details to add a new user.
               </DialogDescription>
             </DialogHeader>
-            <UserForm onSubmit={handleAddUser} />
+            <UserForm  type="add" />
           </DialogContent>
         </Dialog>
       </div>
