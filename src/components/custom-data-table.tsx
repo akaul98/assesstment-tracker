@@ -38,14 +38,17 @@ interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
   buttonLabel?: string;
+  onClickAddButton?: () => void;
 }
 
 export function CustomDataTable<TData, TValue>({
   columns,
   data,
   buttonLabel,
+  onClickAddButton
 }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = React.useState<SortingState>([]);
+ 
   const table = useReactTable({
     data,
     columns,
@@ -69,7 +72,7 @@ export function CustomDataTable<TData, TValue>({
       <div className="mb-4 flex items-center justify-between">
         <div>No of Rows: {table.getRowCount()}</div>
         <div>
-          <Button>
+          <Button onClick={onClickAddButton}>
             <Plus className="mr-2 h-4 w-4" />
             {buttonLabel}
           </Button>

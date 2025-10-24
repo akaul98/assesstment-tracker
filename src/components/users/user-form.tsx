@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useState } from "react";
@@ -39,13 +38,11 @@ export default function UserForm() {
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className="max-w-md mx-auto p-4 bg-white shadow-md rounded"
+      className="w-full grid grid-cols-3 gap-4 p-4"
       noValidate
     >
-      <h2 className="text-2xl font-bold mb-4">User Form</h2>
-
       {/* Name */}
-      <div className="mb-4">
+      <div className="mb-4 w-full">
         <label htmlFor="name" className="block text-gray-700">Name</label>
         <input
           id="name"
@@ -61,7 +58,7 @@ export default function UserForm() {
       </div>
 
       {/* Email */}
-      <div className="mb-4">
+      <div className="mb-4 w-full">
         <label htmlFor="email" className="block text-gray-700">Email</label>
         <input
           id="email"
@@ -83,7 +80,7 @@ export default function UserForm() {
       </div>
 
       {/* Department */}
-      <div className="mb-4">
+      <div className="mb-4 w-full">
         <label htmlFor="department" className="block text-gray-700">Department</label>
         <input
           id="department"
@@ -99,7 +96,7 @@ export default function UserForm() {
       </div>
 
       {/* Designation */}
-      <div className="mb-4">
+      <div className="mb-4 w-full">
         <label htmlFor="designation" className="block text-gray-700">Designation</label>
         <input
           id="designation"
@@ -115,7 +112,7 @@ export default function UserForm() {
       </div>
 
       {/* Status */}
-      <div className="mb-4">
+      <div className="mb-4 w-full">
         <label htmlFor="status" className="block text-gray-700">Status</label>
         <select
           id="status"
@@ -133,16 +130,18 @@ export default function UserForm() {
         )}
       </div>
 
-      <button
-        type="submit"
-        className="w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-600"
-      >
-        Submit
-      </button>
+      <div className="col-span-3 flex justify-end mt-4">
+        <button
+          type="submit"
+          className="bg-blue-500 text-white py-2 px-6 rounded hover:bg-blue-600"
+        >
+          Submit
+        </button>
+      </div>
 
       {/* Submitted Data */}
       {submittedData && (
-        <div className="mt-4 p-4 bg-green-100 border border-green-400 rounded">
+        <div className="col-span-3 mt-4 p-4 bg-green-100 border border-green-400 rounded">
           <h3 className="text-lg font-bold mb-2">Submitted Data:</h3>
           <pre className="whitespace-pre-wrap">
             {JSON.stringify(submittedData, null, 2)}
