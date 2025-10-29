@@ -7,18 +7,20 @@ import { AppSidebar } from "@/components/app-sidebar";
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage } from "@/components/ui/breadcrumb";
 import { Separator } from "@/components/ui/separator";
 import { usePathname } from "next/navigation";
+import React from "react";
+import { ReactQueryProvider } from "./providers/ReactQueryProvider";
 
 const geistSans = Geist({ variable: "--font-geist-sans", subsets: ["latin"] });
 const geistMono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"] });
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
-  console.log("Current Pathname:", pathname);
 
   return (
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-        <SidebarProvider>
+        <ReactQueryProvider>
+          <SidebarProvider>
           <AppSidebar />
           <SidebarInset>
             <header className="flex h-10 shrink-0 items-center gap-2">
@@ -42,7 +44,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             </header>
             <main className="flex-1 overflow-auto p-4">{children}</main>
           </SidebarInset>
-        </SidebarProvider>
+          </SidebarProvider>
+        </ReactQueryProvider>
       </body>
     </html>
   );
