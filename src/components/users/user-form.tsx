@@ -1,8 +1,8 @@
-
 "use client";
 
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { Switch } from "../ui/switch";
 
 export type UserFormValues = {
   name: string;
@@ -12,9 +12,10 @@ export type UserFormValues = {
   status: "active" | "inactive";
 };
 
-
-export default function UserForm() {
-  const [submittedData, setSubmittedData] = useState<UserFormValues | null>(null);
+export default function UserForm({ type }: { type: "add" | "edit" }) {
+  const [submittedData, setSubmittedData] = useState<UserFormValues | null>(
+    null
+  );
 
   const {
     register,
@@ -39,14 +40,14 @@ export default function UserForm() {
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className="max-w-md mx-auto p-4 bg-white shadow-md rounded"
+      className="w-full grid grid-cols-3 gap-4 p-4"
       noValidate
     >
-      <h2 className="text-2xl font-bold mb-4">User Form</h2>
-
       {/* Name */}
-      <div className="mb-4">
-        <label htmlFor="name" className="block text-gray-700">Name</label>
+      <div className="mb-4 w-full">
+        <label htmlFor="name" className="block text-gray-700">
+          Name
+        </label>
         <input
           id="name"
           type="text"
@@ -61,8 +62,10 @@ export default function UserForm() {
       </div>
 
       {/* Email */}
-      <div className="mb-4">
-        <label htmlFor="email" className="block text-gray-700">Email</label>
+      <div className="mb-4 w-full">
+        <label htmlFor="email" className="block text-gray-700">
+          Email
+        </label>
         <input
           id="email"
           type="email"
@@ -83,8 +86,10 @@ export default function UserForm() {
       </div>
 
       {/* Department */}
-      <div className="mb-4">
-        <label htmlFor="department" className="block text-gray-700">Department</label>
+      <div className="mb-4 w-full">
+        <label htmlFor="department" className="block text-gray-700">
+          Department
+        </label>
         <input
           id="department"
           type="text"
@@ -94,13 +99,17 @@ export default function UserForm() {
           } rounded`}
         />
         {errors.department && (
-          <p className="text-red-500 text-sm mt-1">{errors.department.message}</p>
+          <p className="text-red-500 text-sm mt-1">
+            {errors.department.message}
+          </p>
         )}
       </div>
 
       {/* Designation */}
-      <div className="mb-4">
-        <label htmlFor="designation" className="block text-gray-700">Designation</label>
+      <div className="mb-4 w-full">
+        <label htmlFor="designation" className="block text-gray-700">
+          Designation
+        </label>
         <input
           id="designation"
           type="text"
@@ -110,39 +119,45 @@ export default function UserForm() {
           } rounded`}
         />
         {errors.designation && (
-          <p className="text-red-500 text-sm mt-1">{errors.designation.message}</p>
+          <p className="text-red-500 text-sm mt-1">
+            {errors.designation.message}
+          </p>
         )}
       </div>
 
       {/* Status */}
-      <div className="mb-4">
-        <label htmlFor="status" className="block text-gray-700">Status</label>
-        <select
+      <div className="mb-4 w-full">
+        <label htmlFor="status" className="block text-gray-700">
+          Status
+        </label>
+        <Switch
           id="status"
           {...register("status", { required: "Status is required" })}
-          className={`w-full px-3 py-2 border ${
-            errors.status ? "border-red-500" : "border-gray-300"
-          } rounded`}
-        >
-          <option value="">Select status</option>
-          <option value="active">Active</option>
-          <option value="inactive">Inactive</option>
-        </select>
+          checked={type === "add" ? true : undefined}
+          onCheckedChange={(checked) => {
+            // Manually set the value in the form
+            const value = checked ? "active" : "inactive";
+            // @ts-ignore
+            register("status").onChange({ target: { value } });
+          }}
+        />
         {errors.status && (
           <p className="text-red-500 text-sm mt-1">{errors.status.message}</p>
         )}
       </div>
 
-      <button
-        type="submit"
-        className="w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-600"
-      >
-        Submit
-      </button>
+      <div className="col-span-3 flex justify-end mt-4">
+        <button
+          type="submit"
+          className="bg-blue-500 text-white py-2 px-6 rounded hover:bg-blue-600"
+        >
+          Submit
+        </button>
+      </div>
 
       {/* Submitted Data */}
       {submittedData && (
-        <div className="mt-4 p-4 bg-green-100 border border-green-400 rounded">
+        <div className="col-span-3 mt-4 p-4 bg-green-100 border border-green-400 rounded">
           <h3 className="text-lg font-bold mb-2">Submitted Data:</h3>
           <pre className="whitespace-pre-wrap">
             {JSON.stringify(submittedData, null, 2)}
