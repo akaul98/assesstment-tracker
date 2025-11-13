@@ -1,5 +1,4 @@
-import { users } from "@/server/db/schema/users";
-import  {db}  from "@/index";
+import { users, db } from "@/server/db";
 
 export const userRepository={
     async getAllUsers(){

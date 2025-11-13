@@ -12,6 +12,16 @@ import {
 } from "../ui/dialog";
 
 export type User = {
+  Id: number;
+  Name: string;
+  Email: string;
+  Designation: string;
+  Department: string;
+  Status: string;
+};
+
+// Legacy camelCase type for backward compatibility
+export type UserLegacy = {
   id: number;
   name: string;
   email: string;
@@ -19,7 +29,8 @@ export type User = {
   department: string;
   status: string;
 };
-export const initialUserData: User[] = [
+
+export const initialUserData: UserLegacy[] = [
   {
     id: 1,
     name: "John Doe",
@@ -182,13 +193,36 @@ export const initialUserData: User[] = [
   },
 ];
 
-export function UsersDataTable() {
+interface UsersDataTableProps {
+  data?: User[];
+}
+
+export function UsersDataTable({ data: propData }: UsersDataTableProps) {
   const [addDialogOpen, setAddDialogOpen] = useState(false);
+
+  // Convert API data (PascalCase) to component format (camelCase)
+  const convertToLegacyFormat = (users: User[]): UserLegacy[] => {
+    return users.map(user => ({
+      id: user.Id,
+      name: user.Name,
+      email: user.Email,
+      designation: user.Designation,
+      department: user.Department,
+      status: user.Status,
+    }));
+  };
+
+  const initialData = propData
+    ? convertToLegacyFormat(propData)
+    : initialUserData;
+
+  const [data, setData] = useState<UserLegacy[]>(initialData);
 
   function handleOnclickAdd() {
     setAddDialogOpen(true);
   }
-  function handleAddUser(user: Omit<User, "id">) {
+
+  function handleAddUser(user: Omit<UserLegacy, "id">) {
     setData((prevData) => [
       ...prevData,
       {
@@ -198,7 +232,7 @@ export function UsersDataTable() {
     ]);
     setAddDialogOpen(false);
   }
-  const [data, setData] = useState<User[]>(initialUserData);
+
   const handleStatusChange = (id: number, checked: boolean) => {
     setData((prev) =>
       prev.map((user) =>
@@ -208,6 +242,7 @@ export function UsersDataTable() {
       )
     );
   };
+
   const columns = defaultColumns(handleStatusChange);
   return (
     <div>

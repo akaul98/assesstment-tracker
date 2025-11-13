@@ -1,9 +1,23 @@
 import { NextResponse } from 'next/server';
-import { userRepository } from '@/server/api/repository/users/user.repository';
-import { getAllUsersDto } from '@/server/api/dto/users';
+import { userService } from '@/server/api/services/users/user.service';
 
 export async function GET() {
-  const result = await userRepository.getAllUsers();
-  const parsed = result.map(user => getAllUsersDto.parse(user));
-  return NextResponse.json(parsed);
+  try {
+    const users = await userService.getAllUsers();
+    return NextResponse.json(users);
+  } catch (error) {
+    console.error('API Error - GET /api/users:', error);
+
+    const errorMessage = error instanceof Error
+      ? error.message
+      : 'An unexpected error occurred';
+
+    return NextResponse.json(
+      {
+        error: 'Failed to fetch users',
+        message: errorMessage
+      },
+      { status: 500 }
+    );
+  }
 }
